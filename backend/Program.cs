@@ -21,11 +21,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("front", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+    });
+});
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
     options.SaveToken = true;
@@ -42,6 +49,18 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddAutoMapper(typeof(Program));
+
+//we can add a special policy for authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("adminOnly", policy =>
+    {
+        policy.RequireAssertion(context =>
+        {
+            return context.User.Claims.Where(x => x.Value == "User" || x.Value == "Admin").Any();
+        });
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,6 +72,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseCors("front");
 app.UseAuthentication();
 
 app.UseAuthorization();
