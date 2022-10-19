@@ -1,0 +1,25 @@
+<form [formGroup]="form" (ngSubmit)="onSubmitForm()">
+    User Name <input type="text" formControlName="userName">
+    <ng-container>
+        <div
+            *ngIf="formControl['userName'].invalid && (formControl['userName'].touched || formControl['userName'].dirty) ">
+            <div *ngIf="formControl['userName'].errors?.['required']">User Name required</div>
+        </div>
+    </ng-container>
+    Password <input type=" text" formControlName="password">
+    <ng-container>
+        <div
+            *ngIf="formControl['password'].invalid && (formControl['password'].touched || formControl['password'].dirty) ">
+            <div *ngIf="formControl['password'].errors?.['required']">Password required</div>
+        </div>
+    </ng-container>
+    <span #span>
+        <!-- message if failed -->
+    </span>
+    <button [disabled]="form.invalid" type="submit">Login</button>
+    <span>
+        <ng-container *ngIf="loginResponse?.token?.length">
+            successfully logged in!
+        </ng-container>
+    </span>
+</form>
