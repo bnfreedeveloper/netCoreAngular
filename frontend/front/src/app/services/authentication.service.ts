@@ -17,10 +17,10 @@ export class AuthenticationService {
   checkTokenExpired() {
 
     //to get the payload of the jwt
-    let token: string = localStorage.getItem("token")?.split(".")[1] ?? "";
-    let tokenString = JSON.stringify(jwt_decode(token))
-    let tokenObject: LoginResponse = JSON.parse(tokenString);
-    let dateExpiration = tokenObject.expiration;
+    let token: string = JSON.stringify(localStorage.getItem("token"));
+    let tokenString: string = JSON.stringify(jwt_decode(token));
+    let tokenObject: any = JSON.parse(tokenString);
+    let dateExpiration = tokenObject.expires;
     return Math.floor((new Date().getTime()) / 1000).toString() >= dateExpiration;
   }
   removeItems() {

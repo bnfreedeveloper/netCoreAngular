@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginResponse } from 'src/app/Models/LoginResponse';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   get formControl() {
     return this.form.controls;
   }
-  constructor(private loginService: LoginService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private loginService: LoginService, private formBuilder: FormBuilder, private router: Router, private auth: AuthenticationService) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("token", this.loginResponse.token);
           localStorage.setItem("username", this.loginResponse.userName)
           //console.log(localStorage.getItem("token"))
+          console.log(this.auth.checkTokenExpired())
           this.router.navigate(["/employee"]);
           this.form.reset();
         }
