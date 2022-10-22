@@ -3,7 +3,8 @@
     <li>
       <a routerLink="/employee">Employees</a>
     </li>
-    <li><a routerLink="/logout">Logout</a></li>
+    <li *ngIf="checkLoggedIn()"><a routerLink="/logout">Logout</a></li>
+    <li *ngIf="username?.length">Welcome {{username}}</li>
   </ul>
 </div>
 

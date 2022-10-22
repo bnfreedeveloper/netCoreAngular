@@ -4,5 +4,6 @@ export interface LoginResponse {
     name: string,
     userName: string,
     token: string,
-    expiration: string
+    expiration: string,
+    success: boolean
 }

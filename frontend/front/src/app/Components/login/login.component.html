@@ -13,9 +13,6 @@
             <div *ngIf="formControl['password'].errors?.['required']">Password required</div>
         </div>
     </ng-container>
-    <span #span>
-        <!-- message if failed -->
-    </span>
     <button [disabled]="form.invalid" type="submit">Login</button>
     <span>
         <ng-container *ngIf="loginResponse?.token?.length">
@@ -23,3 +20,6 @@
         </ng-container>
     </span>
 </form>
+<span #test>
+    <!-- message if failed -->
+</span>

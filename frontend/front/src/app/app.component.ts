@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'front';
+  username = localStorage.getItem("username")
+
+  checkLoggedIn(): boolean {
+    return localStorage.getItem("token") != null;
+  }
 }

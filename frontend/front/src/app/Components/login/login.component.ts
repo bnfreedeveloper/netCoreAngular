@@ -1,6 +1,7 @@
 import { ThisReceiver } from '@angular/compiler';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginResponse } from 'src/app/Models/LoginResponse';
 import { LoginService } from 'src/app/services/login.service';
 
@@ -13,11 +14,11 @@ export class LoginComponent implements OnInit {
 
   loginResponse !: LoginResponse;
   form !: FormGroup;
-  @ViewChild("span") span !: Element;
+  @ViewChild("test") span !: ElementRef<HTMLElement>;
   get formControl() {
     return this.form.controls;
   }
-  constructor(private loginService: LoginService, private formBuilder: FormBuilder) { }
+  constructor(private loginService: LoginService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -29,12 +30,19 @@ export class LoginComponent implements OnInit {
     this.loginService.Login(this.form.value).subscribe({
       next: (resp) => {
         this.loginResponse = resp;
-        if (this.loginResponse.token.length > 0) {
+        if (this.loginResponse.token.length > 0 && this.loginResponse.success) {
           localStorage.setItem("token", this.loginResponse.token);
-          console.log(localStorage.getItem("token"))
+          localStorage.setItem("username", this.loginResponse.userName)
+          //console.log(localStorage.getItem("token"))
+          this.router.navigate(["/employee"]);
+          this.form.reset();
+        }
+        else {
+          this.span.nativeElement.innerHTML = "an error occured,retry authentication",
+            console.log("rrrr")
         }
       },
-      error: () => { this.span.innerHTML = "an error occured,retry authentication" }
+      error: (e) => { this.span.nativeElement.innerHTML = "an error occured,retry authentication"; console.log("error") }
     })
   }
 

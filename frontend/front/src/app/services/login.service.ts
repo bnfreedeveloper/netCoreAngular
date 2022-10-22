@@ -16,7 +16,7 @@ export class LoginService {
 
   Login(form: LoginModel) {
     return this.http.post<LoginResponse>(this.baseUrl + "/login", form)
-      .pipe(catchError(err => throwError(() => new Error(err))));
+    // .pipe(catchError(err => throwError(() => new Error(err))));
   }
 
 }
