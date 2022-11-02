@@ -21,15 +21,17 @@ namespace backend.Controllers
                 Id=1,Name="jean",Email="j@gmail.com",DepartmentId=2
             },
             new Employee{
-                Id=1,Name="pierre",Email="jpier@gmail.com",DepartmentId=1
+                Id=2,Name="pierre",Email="jpier@gmail.com",DepartmentId=1
             },
             new Employee{
-                Id=1,Name="dux",Email="duke@gmail.com",DepartmentId=3
+                Id=3,Name="dux",Email="duke@gmail.com",DepartmentId=3
             }
          };
 
             //we simulate a call to the database
             return Ok(await Task.FromResult(employees));
+            //for testing
+            //return Ok(new List<Employee>());
         }
 
         [HttpGet("test")]

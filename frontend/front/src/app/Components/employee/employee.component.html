@@ -1,1 +1,24 @@
 <h1>List of employees :</h1>
+<ng-container *ngIf="(employees|async)?.length">
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department Id</th>
+        </tr>
+
+        <tr *ngFor="let emp of employees|async as empArr">
+            <td>{{emp.id}}</td>
+            <td>{{emp.name}}</td>
+            <td>{{emp.email}}</td>
+            <td>{{emp.departmentId}} }</td>
+
+        </tr>
+
+        <span> {{error}}</span>
+
+    </table>
+</ng-container>
+
+<span *ngIf="error?.length != 0"> {{error}}</span>

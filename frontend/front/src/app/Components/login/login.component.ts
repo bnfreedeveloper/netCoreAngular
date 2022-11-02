@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("username", this.loginResponse.userName)
           //console.log(localStorage.getItem("token"))
           console.log(this.auth.checkTokenExpired())
+          this.auth.checkUserName();
           this.router.navigate(["/employee"]);
           this.form.reset();
         }
